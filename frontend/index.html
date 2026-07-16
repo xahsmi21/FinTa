@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinTa — AI Financial Sheet Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="auth-view" class="view active">
+  <div class="centered-screen">
+    <div class="auth-wrap">
+      <div class="brand-block">
+        <div class="brand-mark">FT</div>
+        <h1>Welcome to FinTa</h1>
+        <p>An AI-powered sheet that turns finance theory into hands-on practice.</p>
+      </div>
+      <div class="auth-card">
+        <div class="tab-switch">
+          <button id="tab-login" class="active" onclick="switchAuthTab('login')">Log In</button>
+          <button id="tab-signup" onclick="switchAuthTab('signup')">Create Account</button>
+        </div>
+        <div id="login-panel" class="auth-form-panel active">
+          <div class="field"><label for="login-email">Email address</label><input type="email" id="login-email" placeholder="you@example.com"></div>
+          <div class="field"><label for="login-password">Password</label><input type="password" id="login-password" placeholder="••••••••"></div>
+          <button class="btn btn-primary btn-block" onclick="handleAuth()">Log In</button>
+          <p class="auth-note">Practice environment — any email and password will work.</p>
+        </div>
+        <div id="signup-panel" class="auth-form-panel">
+          <div class="field"><label for="signup-name">Full name</label><input type="text" id="signup-name" placeholder="Your name"></div>
+          <div class="field"><label for="signup-email">Email address</label><input type="email" id="signup-email" placeholder="you@example.com"></div>
+          <div class="field"><label for="signup-password">Password</label><input type="password" id="signup-password" placeholder="Create a password"></div>
+          <button class="btn btn-primary btn-block" onclick="handleAuth()">Create Account</button>
+          <p class="auth-note">Setting up your practice profile takes seconds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="level-view" class="view">
+  <div class="onboard-shell">
+    <div class="onboard-steps">
+      <span><span class="num">✓</span> Account</span><span class="rule"></span>
+      <span class="current"><span class="num">2</span> Level</span><span class="rule"></span>
+      <span><span class="num">3</span> Practice</span>
+    </div>
+    <div class="level-head">
+      <span class="eyebrow">Step 2 of 3</span>
+      <h1>What's your level?</h1>
+      <p>This sets the difficulty mix of your scenarios. You can revisit easier cases anytime.</p>
+    </div>
+    <div class="level-grid">
+      <div class="level-card" id="level-easy" tabindex="0" onclick="selectLevel('easy')">
+        <div class="lvl-icon tag-easy" style="background:var(--success-soft); color:#0F7A3B;">E</div>
+        <h3>Easy</h3>
+        <p>New to financial statements.</p>
+        <ul><li>Income Statement basics</li><li>Simple calculations</li><li>Guided, step-by-step</li></ul>
+      </div>
+      <div class="level-card" id="level-medium" tabindex="0" onclick="selectLevel('medium')">
+        <div class="lvl-icon tag-medium" style="background:var(--accent-soft); color:#9A6512;">M</div>
+        <h3>Medium</h3>
+        <p>Comfortable with the basics.</p>
+        <ul><li>Balance Sheet & Cash Flows</li><li>Financial ratios</li><li>Mixed question types</li></ul>
+      </div>
+    </div>
+    <div class="level-actions">
+      <button class="btn btn-primary" id="level-continue" disabled onclick="confirmLevel()">Continue to Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell" id="app-shell" style="display:none;">
+  <div class="sidebar">
+    <div class="sidebar-brand"><div class="brand-mark">FT</div><strong>FinTa</strong></div>
+    <div class="sidebar-nav">
+      <button id="nav-dashboard" class="active" onclick="navigate('dashboard-view')"><span class="ic">▦</span> Dashboard</button>
+      <button id="nav-report" onclick="goToReport()"><span class="ic">◔</span> My Report</button>
+    </div>
+    <div class="sidebar-foot">
+      <div class="sidebar-level">Level<b id="sidebar-level-name">—</b></div>
+      <button class="logout-btn" onclick="logout()">Log out</button>
+    </div>
+  </div>
+
+  <div class="main-area">
+    <div id="dashboard-view" class="view active">
+      <div class="dash-head">
+        <div>
+          <span class="eyebrow">Cases Dashboard</span>
+          <h1>Choose a scenario</h1>
+          <p>Complete each case to unlock the next and grow your feedback report.</p>
+        </div>
+        <div class="dash-progress">
+          <span class="label">Overall Progress</span>
+          <div class="bar"><div class="bar-fill" id="dash-bar-fill" style="width:0%"></div></div>
+          <span class="count" id="dash-count">0 / 2 completed</span>
+        </div>
+      </div>
+      <div class="cases-grid" id="cases-grid">
+        </div>
+    </div>
+
+    <div id="workspace-view" class="view">
+      <div class="ws-header">
+        <div class="tag-row" id="ws-tags"></div>
+        <h2 id="ws-title">Practice Preparing an Income Statement</h2>
+        <p id="ws-brief">Prepare the following income statement using the given numbers.</p>
+      </div>
+
+      <div class="ws-layout">
+        <div class="ws-sheet-area">
+          <div class="toolbar">
+            <div class="tb-group">
+              <button class="tb-btn" title="Undo last entry" onclick="undoLast()">↺</button>
+            </div>
+            <div class="tb-group">
+              <input class="tb-search" type="text" placeholder="Search rows…" oninput="searchSheet(this.value)">
+            </div>
+            <div class="tb-group">
+              <button class="tb-btn" title="Zoom out" onclick="zoomSheet(-15)">–</button>
+              <span class="tb-zoom" id="zoom-label">100%</span>
+              <button class="tb-btn" title="Zoom in" onclick="zoomSheet(15)">+</button>
+            </div>
+            <div class="tb-group">
+              <button class="tb-btn" title="Export sheet as CSV" onclick="exportCSV()">⬇</button>
+            </div>
+            <div class="tb-status"><span class="dot-live"></span> <span id="autosave-status">All changes saved</span></div>
+          </div>
+          <div class="formula-bar">
+            <span class="cell-ref" id="cell-ref">Fx</span>
+            <span class="fx-icon">fx</span>
+            <span class="cell-content" id="cell-content">Workspace Active</span>
+          </div>
+          <div class="sheet-card">
+            <table class="spreadsheet">
+              <thead><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>J</th></tr></thead>
+              <tbody id="sheet-body">
+                <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>2</td><td>Revenue</td><td></td><td>50,000</td><td></td></tr>
+                <tr><td>3</td><td>Cost of Goods Sold</td><td></td><td>30,000</td><td></td></tr>
+                <tr><td>4</td><td>Gross Profit</td><td></td><td><div class="cell-input-wrap"><input type="number" id="input-gp"></div></td><td></td></tr>
+                <tr><td>5</td><td>Operating Expenses</td><td></td><td><div class="cell-input-wrap"><input type="number" id="input-oe"></div></td><td></td></tr>
+                <tr><td>6</td><td>Net Income</td><td></td><td><div class="cell-input-wrap"><input type="number" id="input-ni"></div></td><td></td></tr>
+                <tr><td>7</td><td></td><td></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sheet-actions">
+            <button class="btn btn-primary" id="submit-btn" onclick="evaluateAI()">Submit for AI Review</button>
+          </div>
+        </div>
+
+        <div class="ws-side">
+          <div class="ws-panel">
+            <div class="ws-panel-head">Task Brief</div>
+            <div class="ws-panel-body" id="task-brief-body">Calculate the missing fields for Gross Profit and Net Income based on the provided Revenue and COGS.</div>
+          </div>
+          <div class="ws-panel">
+            <div class="ws-panel-head">Checklist</div>
+            <div class="ws-panel-body">
+                <div class="checklist" id="checklist-body">
+                    <button><div class="check-dot"></div>Calculate Gross Profit</button>
+                    <button><div class="check-dot"></div>Calculate Net Income</button>
+                </div>
+            </div>
+          </div>
+          <div class="ws-panel">
+            <div class="ws-panel-head">Your Notes</div>
+            <div class="ws-panel-body notes-area"><textarea id="notes-input" placeholder="Jot down your reasoning…" oninput="saveNote()"></textarea></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="feedback-view" class="view">
+      <div class="fb-header">
+        <span class="eyebrow" id="fb-case-name">Feedback</span>
+        <h1>AI Evaluation Result</h1>
+        <div class="fb-score-block">
+          <div class="score-ring" id="score-ring"><div class="score-ring-inner"><span class="num" id="final-score">0%</span></div></div>
+          <div><div class="score-word" id="score-word">—</div><div class="score-caption">Overall accuracy on this case</div></div>
+        </div>
+      </div>
+
+      <div class="fb-grid">
+        <div>
+          <div class="ws-panel-head" style="border-radius:var(--radius) var(--radius) 0 0; border:1px solid var(--border); border-bottom:none;">Answer Comparison</div>
+          <table class="compare-table" id="compare-table">
+            <thead><tr><th>Field</th><th>Your Answer</th><th>Correct Answer</th><th></th></tr></thead>
+            <tbody id="compare-body"></tbody>
+          </table>
+        </div>
+        <div>
+          <div class="feedback-section">
+            <h4>Errors</h4>
+            <ul id="errors-list"></ul>
+          </div>
+          <div class="feedback-section">
+            <h4>AI Explanation</h4>
+            <ul id="ai-explanation-list"></ul>
+          </div>
+          <div class="feedback-section">
+            <h4>Recommendations</h4>
+            <ul id="recommendations-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="fb-actions">
+        <button class="btn btn-ghost" onclick="navigate('workspace-view')">Try Again</button>
+        <button class="btn btn-primary" id="next-case-btn" onclick="goToReport()">Finish & View Report</button>
+      </div>
+    </div>
+
+    <div id="report-view" class="view">
+      <div class="report-head">
+        <span class="eyebrow">Feedback Report</span>
+        <h1>Your performance summary</h1>
+        <p>A full picture of how you're doing across every domain you've practiced.</p>
+      </div>
+
+      <div class="report-stats">
+        <div><span class="stat-label">Average Score</span><span class="stat-value accent" id="report-score">0%</span></div>
+        <div><span class="stat-label">Current Level</span><span class="stat-value gold" id="report-level">—</span></div>
+        <div><span class="stat-label">Cases Completed</span><span class="stat-value" id="report-completed">0 / 2</span></div>
+      </div>
+      
+      <div class="report-actions">
+          <button class="btn btn-primary" onclick="navigate('dashboard-view')">Back to Dashboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
