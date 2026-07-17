@@ -111,15 +111,15 @@ localhost:3000
 
 اعضاء الفريق (Contributors):
 رغد السميري
-(https://github.com/EMI0072)[GitHub]
+[GitHub](https://github.com/EMI0072)
  
 عبدالله السميري
-(https://github.com/xahsmi21)[GitHub]
-(https://www.linkedin.com/in/abdullah-alsumairi-724ab9213/)[LinkedIn]
+[GitHub](https://github.com/xahsmi21)
+[LinkedIn](https://www.linkedin.com/in/abdullah-alsumairi-724ab9213/)
 
 همس ابوهاشم
-(https://github.com/mshams2)[GitHub]
-(https://www.linkedin.com/in/1-mshams?utm_source=share_via&utm_content=profile&utm_medium=member_ios)[LinkedIn]
+[GitHub](https://github.com/mshams2)
+[LinkedIn](https://www.linkedin.com/in/1-mshams?utm_source=share_via&utm_content=profile&utm_medium=member_ios)
 
 جنى الزكري
 
