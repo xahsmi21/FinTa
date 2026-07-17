@@ -1,4 +1,4 @@
 /.vs
 config.py
 .env
-finta.db
+backend/finta.db
