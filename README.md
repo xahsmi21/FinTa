@@ -99,3 +99,20 @@ python.exe main.py
 
 5- فتح المتصفح(web browser)، واكتب:
 localhost:3000
+
+---
+
+اعضاء الفريق (Contributors):
+رغد السميري
+(https://github.com/EMI0072)[GitHub]
+ 
+عبدالله السميري
+(https://github.com/xahsmi21)[GitHub]
+(https://www.linkedin.com/in/abdullah-alsumairi-724ab9213/)[LinkedIn]
+
+همس ابوهاشم
+(https://github.com/mshams2)[GitHub]
+(https://www.linkedin.com/in/1-mshams?utm_source=share_via&utm_content=profile&utm_medium=member_ios)[LinkedIn]
+
+جنى الزكري
+
