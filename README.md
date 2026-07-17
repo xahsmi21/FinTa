@@ -123,4 +123,5 @@ localhost:3000
 [LinkedIn](https://www.linkedin.com/in/1-mshams?utm_source=share_via&utm_content=profile&utm_medium=member_ios)
 
 جنى الزكري
-
+[GitHub](https://github.com/janamz1)
+[LinkedIn](https://www.linkedin.com/in/jana-alzkeri?utm_source=share_via&utm_content=profile&utm_medium=member_ios)
