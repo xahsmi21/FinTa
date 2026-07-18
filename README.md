@@ -113,6 +113,7 @@ localhost:3000
 
 رغد السميري
 [GitHub](https://github.com/EMI0072)
+[LinkedIn](https://www.linkedin.com/in/raghad-mohammed-65a54b24b)
  
 عبدالله السميري
 [GitHub](https://github.com/xahsmi21)
